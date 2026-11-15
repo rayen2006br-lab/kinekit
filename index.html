@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kinekit — Tools for editors who move fast</title>
+<link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<meta name="description" content="Kinekit — Text animation packs and sound effect packs for video editors. 26 text animations, 300 sound effects. Try them live in your browser.">
+<meta property="og:title" content="Kinekit — Tools for editors who move fast">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --bg: #f7f7f6;
+    --bg2: #f0efed;
+    --dark: #141414;
+    --dark2: #1e1e1e;
+    --gray: #6b6b6b;
+    --gray-light: #d4d4d2;
+    /* ACCENT — change this one value to re-theme the whole site */
+    --accent: #8b5cf6;
+    --accent-soft: rgba(139,92,246,0.14);
+    --accent-ink: #6d28d9;
+    --radius: 999px;
+    --radius-card: 24px;
+    --shadow: 0 4px 32px rgba(0,0,0,0.08);
+    --shadow-hover: 0 12px 48px rgba(0,0,0,0.14);
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(247,247,246,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: var(--transition);
+  }
+  .nav-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800; font-size: 22px;
+    letter-spacing: -0.5px;
+    color: var(--dark); text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); font-weight: 800; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500;
+    color: var(--gray); text-decoration: none;
+    transition: color var(--transition);
+    letter-spacing: 0.2px;
+  }
+  .nav-links a:hover { color: var(--dark); }
+  .nav-cta {
+    background: var(--dark) !important;
+    color: var(--white) !important;
+    padding: 10px 24px;
+    border-radius: var(--radius);
+    font-size: 13px !important; font-weight: 600 !important;
+    letter-spacing: 0.3px;
+    transition: all var(--transition) !important;
+  }
+  .nav-cta:hover { background: #333 !important; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--accent-soft) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .promo {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--dark); color: var(--white);
+    border-radius: var(--radius);
+    padding: 10px 22px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s ease both;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .promo:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+  .promo b { color: #c4b5fd; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--gray-light);
+    border-radius: var(--radius);
+    padding: 8px 18px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(56px, 10vw, 120px);
+    font-weight: 900; letter-spacing: -4px;
+    line-height: 0.9; color: var(--dark);
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); font-weight: 300; }
+  .hero-desc {
+    font-size: 18px; color: var(--gray);
+    max-width: 480px; line-height: 1.6;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 16px; align-items: center;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-primary {
+    background: var(--dark); color: var(--white);
+    padding: 16px 36px; border-radius: var(--radius);
+    font-size: 15px; font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition); letter-spacing: 0.2px;
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(139,92,246,0.35);
+  }
+  .btn-secondary {
+    color: var(--gray); padding: 16px 24px;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    transition: color var(--transition);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { color: var(--dark); }
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 80px;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px; font-weight: 800;
+    color: var(--dark); letter-spacing: -1px;
+  }
+  .stat-label { font-size: 13px; color: var(--gray); font-weight: 400; margin-top: 4px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  .section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 56px;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800; letter-spacing: -2px; line-height: 1;
+  }
+  .section-link {
+    color: var(--gray); font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--gray-light);
+    padding-bottom: 2px; white-space: nowrap; margin-bottom: 6px;
+    transition: all var(--transition);
+  }
+  .section-link:hover { color: var(--dark); border-color: var(--dark); }
+
+  /* Filter tabs */
+  .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; }
+  .filter-tab {
+    padding: 10px 22px; border-radius: var(--radius);
+    border: 1px solid var(--gray-light);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    color: var(--gray); cursor: pointer;
+    transition: all var(--transition);
+  }
+  .filter-tab:hover { border-color: var(--dark); color: var(--dark); }
+  .filter-tab.active { background: var(--dark); color: var(--white); border-color: var(--dark); }
+
+  /* Product Grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .product-card {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: all var(--transition);
+    cursor: pointer; position: relative;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: transparent;
+  }
+  .product-img {
+    width: 100%; height: 220px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .product-img.text-cover {
+    background: linear-gradient(150deg, #1a1a1e, #0e0e10);
+  }
+  .product-img.sfx-cover {
+    background: radial-gradient(90% 120% at 85% 0%, rgba(139,92,246,.35), transparent 60%), #101014;
+  }
+  .cover-demo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 34px; font-weight: 900; letter-spacing: -1px;
+    color: var(--white); position: relative; z-index: 1;
+  }
+  .cover-demo em { font-style: normal; color: #a78bfa; font-weight: 300; }
+  .cover-wave { display: flex; gap: 5px; align-items: center; height: 48px; }
+  .cover-wave span {
+    width: 5px; border-radius: 3px; background: #a78bfa;
+    animation: coverEq 1.2s ease-in-out infinite alternate;
+  }
+  .cover-wave span:nth-child(2) { animation-delay: .15s; height: 60%; }
+  .cover-wave span:nth-child(3) { animation-delay: .3s; height: 85%; }
+  .cover-wave span:nth-child(4) { animation-delay: .45s; height: 45%; }
+  .cover-wave span:nth-child(5) { animation-delay: .6s; height: 70%; }
+  @keyframes coverEq { from { height: 15%; } to { height: 90%; } }
+  .product-badge-new {
+    position: absolute; top: 16px; left: 16px;
+    background: var(--accent); color: var(--white);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: var(--radius);
+  }
+  .product-badge-free {
+    position: absolute; top: 16px; left: 16px;
+    background: #4ade80; color: #052e16;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: var(--radius);
+  }
+  .product-info { padding: 24px; }
+  .product-cat {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 8px;
+  }
+  .product-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px; font-weight: 700;
+    letter-spacing: -0.5px; margin-bottom: 8px;
+  }
+  .product-desc { font-size: 14px; color: var(--gray); line-height: 1.5; margin-bottom: 20px; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px; font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .product-price span { font-size: 13px; font-weight: 400; color: var(--gray); }
+  .btn-buy {
+    background: var(--dark); color: var(--white);
+    padding: 10px 22px; border-radius: var(--radius);
+    font-size: 13px; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all var(--transition);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-buy:hover { background: var(--accent); transform: scale(1.03); }
+
+  /* TRY IT LIVE — playground */
+  .try-section { background: var(--dark); padding: 110px 48px; color: var(--white); overflow: hidden; }
+  .try-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 480px; gap: 80px; align-items: center; }
+  .try-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: #a78bfa; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .try-label::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); animation: pulse 2s infinite;
+  }
+  .try-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(36px, 4.4vw, 60px);
+    font-weight: 900; letter-spacing: -2px;
+    line-height: 1; margin-bottom: 24px;
+  }
+  .try-title em { font-style: normal; color: var(--accent); }
+  .try-desc { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 32px; max-width: 520px; }
+  .try-list { display: grid; gap: 12px; margin-bottom: 40px; }
+  .try-list div { display: flex; gap: 12px; align-items: center; font-size: 15px; color: rgba(255,255,255,0.75); }
+  .try-list b {
+    width: 26px; height: 26px; border-radius: 8px;
+    background: rgba(139,92,246,0.2); color: #c4b5fd;
+    display: grid; place-items: center;
+    font-size: 12px; flex: none;
+  }
+  .playground {
+    border-radius: 32px; padding: 10px;
+    background: linear-gradient(160deg, #2a2a35, #121216);
+    box-shadow: 0 40px 120px -30px rgba(139,92,246,.55), inset 0 0 0 1px rgba(255,255,255,.08);
+  }
+  .pg-body { background: #0e0e10; border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+  .pg-preview {
+    min-height: 170px; position: relative; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; border-radius: 16px;
+    background: radial-gradient(80% 100% at 50% 0%, rgba(139,92,246,.12), transparent 70%), #131318;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 26px 20px;
+  }
+  .pg-sweep {
+    position: absolute; top: 0; bottom: 0; left: 0; width: 45%;
+    background: linear-gradient(105deg, transparent, rgba(255,255,255,.30), transparent);
+    transform: translateX(-140%); pointer-events: none;
+  }
+  .pg-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px; font-weight: 900; letter-spacing: -2px;
+    color: var(--white); text-align: center; line-height: 1.15;
+  }
+  .pg-text .ltr { display: inline-block; white-space: pre; will-change: transform, opacity, filter; }
+  .pg-caret {
+    display: inline-block; width: 3px; height: 0.85em;
+    background: var(--accent); margin-left: 2px;
+    vertical-align: -0.08em; animation: blink 0.8s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .pg-controls { display: flex; flex-direction: column; gap: 12px; }
+  .pg-input {
+    width: 100%; padding: 14px 18px;
+    border-radius: 14px; border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.05);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+    outline: none; transition: border-color var(--transition);
+  }
+  .pg-input:focus { border-color: var(--accent); }
+  .pg-styles { display: flex; gap: 7px; flex-wrap: wrap; }
+  .pg-style {
+    padding: 8px 13px; border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.14);
+    background: transparent; color: rgba(255,255,255,0.65);
+    font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 600;
+    cursor: pointer; transition: all var(--transition);
+  }
+  .pg-style:hover { border-color: var(--accent); color: var(--white); }
+  .pg-style.active { background: var(--accent); border-color: var(--accent); color: var(--white); }
+  .pg-card {
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 13px;
+    background: rgba(255,255,255,0.02);
+  }
+  .pg-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .pg-lbl {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.35); min-width: 58px;
+  }
+  .pg-seg {
+    display: flex; flex: 1; gap: 2px; padding: 3px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+  }
+  .pg-seg button {
+    flex: 1; padding: 6px 10px; border: none; border-radius: 7px;
+    background: transparent; color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all .15s;
+  }
+  .pg-seg button.on { background: var(--accent); color: var(--white); }
+  .pg-sl { display: flex; flex-direction: column; gap: 5px; }
+  .pg-sl .top { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.55); }
+  .pg-sl .top b { color: #c4b5fd; font-weight: 600; }
+  .pg-sl input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; margin: 0; }
+  .pg-fx { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .pg-sw {
+    display: flex; align-items: center; gap: 7px;
+    padding: 7px 12px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: transparent; color: rgba(255,255,255,0.6);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all var(--transition);
+  }
+  .pg-sw i {
+    width: 26px; height: 14px; border-radius: 7px; font-style: normal;
+    background: rgba(255,255,255,0.15); position: relative; transition: background .2s;
+  }
+  .pg-sw i::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #fff; transition: left .2s;
+  }
+  .pg-sw.on { border-color: var(--accent); color: var(--white); }
+  .pg-sw.on i { background: var(--accent); }
+  .pg-sw.on i::after { left: 14px; }
+  .pg-sfx {
+    padding: 7px 10px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.05); color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; outline: none;
+  }
+  .pg-colors { display: flex; gap: 8px; align-items: center; }
+  .pg-colors button {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid transparent; cursor: pointer; padding: 0;
+    transition: all .15s;
+  }
+  .pg-colors button.on { border-color: #fff; transform: scale(1.14); }
+  .pg-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .pg-foot small { font-size: 11px; color: rgba(255,255,255,0.35); }
+  .btn-play {
+    background: var(--accent); color: var(--white);
+    padding: 12px 28px; border-radius: var(--radius);
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 700;
+    transition: all var(--transition);
+  }
+  .btn-play:hover { filter: brightness(1.12); transform: scale(1.03); }
+  .try-hint { text-align: center; font-size: 12px; color: rgba(255,255,255,.4); margin-top: 14px; }
+
+  /* SOUNDS */
+  .sounds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+  .snd {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px;
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 18px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; color: var(--dark);
+    text-align: left; transition: all var(--transition);
+  }
+  .snd:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .snd i {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--dark); color: #fff;
+    display: grid; place-items: center;
+    font-style: normal; font-size: 13px; flex: none;
+    transition: background var(--transition);
+  }
+  .snd.on i { background: var(--accent); }
+  .snd .bars { display: flex; gap: 3px; align-items: center; height: 18px; margin-left: auto; }
+  .snd .bars span { width: 3px; border-radius: 2px; background: var(--gray-light); height: 30%; }
+  .snd.on .bars span { background: var(--accent); animation: eq .5s ease-in-out infinite alternate; }
+  .snd.on .bars span:nth-child(2) { animation-delay: .12s }
+  .snd.on .bars span:nth-child(3) { animation-delay: .24s }
+  .snd.on .bars span:nth-child(4) { animation-delay: .06s }
+  @keyframes eq { from { height: 20%; } to { height: 100%; } }
+  .sounds-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; margin-top: 32px; flex-wrap: wrap;
+  }
+  .sounds-foot p { color: var(--gray); font-size: 15px; }
+
+  /* FEATURED */
+  .featured-section { background: var(--dark2); padding: 100px 48px; }
+  .featured-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .featured-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); margin-bottom: 16px;
+  }
+  .featured-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 900; letter-spacing: -2px;
+    color: var(--white); line-height: 1; margin-bottom: 24px;
+  }
+  .featured-desc { font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 40px; }
+  .featured-features { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+  .feature-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(255,255,255,0.7); }
+  .feature-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .featured-btns { display: flex; gap: 16px; align-items: center; }
+  .btn-white {
+    background: var(--white); color: var(--dark);
+    padding: 14px 32px; border-radius: var(--radius);
+    font-size: 14px; font-weight: 700;
+    text-decoration: none; transition: all var(--transition);
+  }
+  .btn-white:hover { background: #eee; transform: translateY(-2px); }
+  .btn-ghost {
+    color: rgba(255,255,255,0.5); padding: 14px 20px;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none; transition: color var(--transition);
+  }
+  .btn-ghost:hover { color: var(--white); }
+  .featured-visual {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-card);
+    padding: 32px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .mock-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .mock-title { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); }
+  .mock-badge {
+    background: rgba(139,92,246,0.18); color: #c4b5fd;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; padding: 4px 10px; border-radius: var(--radius);
+  }
+  .mock-row {
+    display: grid; grid-template-columns: 1fr 90px 1fr;
+    gap: 8px; align-items: center;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .mock-row:hover { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); }
+  .mock-name { font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 600; }
+  .mock-cat { font-size: 11px; color: rgba(255,255,255,0.35); }
+  .mock-play {
+    font-size: 11px; color: #c4b5fd;
+    text-align: right; font-weight: 600;
+  }
+
+  /* HOW IT WORKS */
+  .how-section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 64px; }
+  .step-card {
+    text-align: center; padding: 40px 24px;
+    background: var(--white); border-radius: var(--radius-card);
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: all var(--transition); position: relative;
+  }
+  .step-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .step-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 48px; font-weight: 900;
+    color: var(--accent-soft); letter-spacing: -2px;
+    margin-bottom: 16px; line-height: 1;
+    -webkit-text-stroke: 1px rgba(139,92,246,0.4);
+  }
+  .step-icon { font-size: 32px; margin-bottom: 16px; }
+  .step-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: -0.3px; margin-bottom: 10px;
+  }
+  .step-desc { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+  /* REVIEW */
+  .review-section { padding: 0 48px 100px; }
+  .review-head { text-align: center; margin-bottom: 48px; }
+  .review-card {
+    max-width: 820px; margin: 0 auto;
+    background: var(--white); border-radius: 32px;
+    padding: 56px 56px 48px;
+    border: 1px solid rgba(0,0,0,0.06);
+    text-align: center; box-shadow: var(--shadow);
+  }
+  .review-stars { color: var(--accent); font-size: 22px; letter-spacing: 4px; margin-bottom: 24px; }
+  .review-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 700; letter-spacing: -0.8px;
+    line-height: 1.35; margin-bottom: 28px;
+  }
+  .review-who { font-size: 14px; color: var(--gray); }
+  .review-who b { color: var(--dark); }
+
+  /* ABOUT */
+  .about-section { background: var(--white); padding: 100px 48px; }
+  .about-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .about-avatar {
+    width: 120px; height: 120px;
+    background: var(--accent-soft); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px; margin-bottom: 32px;
+    border: 3px solid rgba(139,92,246,0.3);
+  }
+  .about-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px; font-weight: 900;
+    letter-spacing: -2px; margin-bottom: 16px;
+  }
+  .about-desc { font-size: 16px; color: var(--gray); line-height: 1.7; margin-bottom: 32px; }
+  .about-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+  .about-tag {
+    padding: 8px 18px; border-radius: var(--radius);
+    border: 1px solid var(--gray-light);
+    font-size: 13px; font-weight: 500; color: var(--gray);
+  }
+  .about-visual {
+    background: var(--bg); border-radius: var(--radius-card);
+    padding: 40px; display: flex; flex-direction: column; gap: 20px;
+  }
+  .about-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .about-stat-card {
+    background: var(--white); border-radius: 16px;
+    padding: 24px; text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .about-stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px; font-weight: 900;
+    letter-spacing: -1.5px; color: var(--dark);
+  }
+  .about-stat-label { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+  /* FAQ */
+  .faq-section { padding: 100px 48px; max-width: 800px; margin: 0 auto; }
+  .faq-head { text-align: center; margin-bottom: 64px; }
+  .faq-item { border-bottom: 1px solid var(--gray-light); padding: 24px 0; }
+  .faq-q {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px; font-weight: 700;
+    letter-spacing: -0.3px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .faq-icon { font-size: 20px; color: var(--gray); transition: transform var(--transition); flex-shrink: 0; }
+  .faq-a { font-size: 15px; color: var(--gray); line-height: 1.7; margin-top: 16px; display: none; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-item.open .faq-a { display: block; }
+
+  /* FOOTER */
+  footer { background: var(--dark); color: rgba(255,255,255,0.5); padding: 60px 48px 40px; }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  .footer-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; font-size: 28px;
+    letter-spacing: -1px; color: var(--white);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-links { display: flex; gap: 32px; }
+  .footer-links a {
+    font-size: 13px; color: rgba(255,255,255,0.4);
+    text-decoration: none; transition: color var(--transition);
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    padding: 48px; max-width: 560px; width: 100%;
+    position: relative; animation: fadeUp 0.3s ease;
+  }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--bg); border: none; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 18px; color: var(--gray);
+    display: flex; align-items: center; justify-content: center;
+    transition: all var(--transition);
+  }
+  .modal-close:hover { background: var(--bg2); color: var(--dark); }
+  .modal-cat {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 12px;
+  }
+  .modal-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px; font-weight: 900;
+    letter-spacing: -1.5px; margin-bottom: 16px;
+  }
+  .modal-desc { font-size: 16px; color: var(--gray); line-height: 1.7; margin-bottom: 32px; }
+  .modal-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .modal-feature { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--gray); }
+  .modal-feature::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+  .modal-footer { display: flex; align-items: center; justify-content: space-between; }
+  .modal-price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px; font-weight: 900; letter-spacing: -1.5px;
+  }
+  .modal-price small { font-size: 14px; font-weight: 400; color: var(--gray); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .try-inner { grid-template-columns: 1fr; gap: 48px; }
+    .playground { max-width: 480px; margin: 0 auto; width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .try-section { padding: 70px 24px; }
+    .review-card { padding: 40px 24px; }
+    .hero-stats { flex-wrap: wrap; justify-content: center; gap: 28px 36px; }
+    .hero-btns { flex-direction: column; gap: 8px; }
+    .btn-primary { white-space: nowrap; }
+    .sounds-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .snd { padding: 12px; gap: 10px; font-size: 13px; }
+    .snd i { width: 34px; height: 34px; }
+    .snd .bars { display: none; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px 24px; }
+    .footer-links a { white-space: nowrap; }
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .hero h1 { letter-spacing: -2px; }
+    .section { padding: 60px 24px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .featured-inner { grid-template-columns: 1fr; gap: 40px; }
+    .steps-grid { grid-template-columns: 1fr 1fr; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .featured-section { padding: 60px 24px; }
+    .review-section { padding: 0 24px 60px; }
+    .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <a href="#" class="nav-logo">kinekit<span>.</span></a>
+  <div class="nav-links">
+    <a href="#try">Try it live</a>
+    <a href="#products">Products</a>
+    <a href="#sounds">Sounds</a>
+    <a href="#faq">FAQ</a>
+    <a href="#products" class="nav-cta">Browse →</a>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <a class="promo" href="#featured">🔥 Launch week · <b>30% off</b> everything</a>
+  <div class="hero-badge">Text Animations · Sound Effects</div>
+  <h1>Tools for<br>editors who<br><em>move fast.</em></h1>
+  <p class="hero-desc">Text animation packs and sound effect packs that drop straight onto your timeline. Built by editors, for editors — one click, everything stays editable.</p>
+  <div class="hero-btns">
+    <a href="#try" class="btn-primary">Try the animations live →</a>
+    <a href="#products" class="btn-secondary">Browse products ↓</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">26</div>
+      <div class="stat-label">text animations</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">300</div>
+      <div class="stat-label">sound effects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">packs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">free updates</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TRY IT LIVE (interactive playground) ══════════════ -->
+<section class="try-section" id="try">
+  <div class="try-inner">
+    <div>
+      <div class="try-label">Live demo · no install</div>
+      <div class="try-title">Try the animations<br><em>right here.</em></div>
+      <div class="try-desc">This is a live taste of TextMotion Pack, running in your browser. Pick any style, then shape it with real parameters — split, direction, amount, stagger, duration, blur, glow, sweep and a synced sound. Every adjustment works on every style, exactly like the pack in your editor.</div>
+      <div class="try-list">
+        <div><b>1</b>Type your text and pick one of 13 styles</div>
+        <div><b>2</b>Tune direction, amount, stagger, duration and blur — live</div>
+        <div><b>3</b>Toggle glow, light sweep and a synced sound effect</div>
+      </div>
+      <div class="featured-btns">
+        <a href="#products" class="btn-white">Get TextMotion Pack →</a>
+      </div>
+    </div>
+    <div>
+      <div class="playground">
+        <div class="pg-body">
+          <div class="pg-preview"><div class="pg-sweep" id="pgSweep"></div><div class="pg-text" id="pgText"></div></div>
+          <input class="pg-input" id="pgInput" type="text" value="Kinekit" maxlength="18" spellcheck="false" aria-label="Text to animate">
+          <div class="pg-styles" id="pgStyles"></div>
+          <div class="pg-card">
+            <div class="pg-row">
+              <span class="pg-lbl">Split</span>
+              <div class="pg-seg" id="pgUnit"><button data-v="letter" class="on">Letter</button><button data-v="word">Word</button></div>
+              <div class="pg-seg" id="pgEase" style="flex:0 0 36%"><button data-v="1">Bounce</button><button data-v="0" class="on">Smooth</button></div>
+            </div>
+            <div class="pg-row" id="pgDirRow">
+              <span class="pg-lbl">From</span>
+              <div class="pg-seg" id="pgDir"><button data-v="up" class="on" title="From below">↑</button><button data-v="down" title="From above">↓</button><button data-v="left" title="From the right">←</button><button data-v="right" title="From the left">→</button></div>
+            </div>
+            <div class="pg-sl">
+              <div class="top"><span>Amount</span><b id="pgVAmount">60 px</b></div>
+              <input type="range" id="pgAmount" min="0" max="300" value="60">
+            </div>
+            <div class="pg-row">
+              <div class="pg-sl" style="flex:1">
+                <div class="top"><span>Stagger</span><b id="pgVDelay">0.04 s</b></div>
+                <input type="range" id="pgDelay" min="0" max="30" value="4">
+              </div>
+              <div class="pg-sl" style="flex:1">
+                <div class="top"><span>Duration</span><b id="pgVDur">0.7 s</b></div>
+                <input type="range" id="pgDur" min="2" max="20" value="7">
+              </div>
+            </div>
+            <div class="pg-sl">
+              <div class="top"><span>Blur</span><b id="pgVBlur">8 px</b></div>
+              <input type="range" id="pgBlur" min="0" max="60" value="8">
+            </div>
+            <div class="pg-row">
+              <span class="pg-lbl">FX</span>
+              <div class="pg-fx">
+                <button class="pg-sw" data-fx="glow"><i></i>Glow</button>
+                <button class="pg-sw" data-fx="sweep"><i></i>Sweep</button>
+                <button class="pg-sw" data-fx="sfx"><i></i>Sound</button>
+                <select class="pg-sfx" id="pgSfxSel" aria-label="Sound effect">
+                  <option>Whoosh</option><option>Pop</option><option>Ding</option><option>Riser</option>
+                  <option>Impact</option><option>Glitch</option><option>Coin</option><option>Boing</option>
+                </select>
+              </div>
+            </div>
+            <div class="pg-row">
+              <span class="pg-lbl">Color</span>
+              <div class="pg-colors" id="pgColors"></div>
+            </div>
+          </div>
+          <div class="pg-foot">
+            <small>Every control reshapes every style · loops until you leave</small>
+            <button class="btn-play" id="pgPlay">↻ Replay</button>
+          </div>
+        </div>
+      </div>
+      <div class="try-hint">Same engine as the real pack · adjust anything · it keeps looping</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PRODUCTS ══════════════ -->
+<section style="padding: 100px 0; background: var(--bg);">
+  <div class="section" id="products" style="padding-top: 0; padding-bottom: 0;">
+    <div class="section-header">
+      <div>
+        <div class="section-label">All Products</div>
+        <div class="section-title">Pick your pack.</div>
+      </div>
+      <a href="#products" class="section-link">View all →</a>
+    </div>
+
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterProducts('all', this)">All</button>
+      <button class="filter-tab" onclick="filterProducts('text', this)">Text Animations</button>
+      <button class="filter-tab" onclick="filterProducts('sfx', this)">Sound Effects</button>
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+
+      <div class="product-card" data-cat="bundle" onclick="openModal('bundle')">
+        <div class="product-img sfx-cover">
+          <div class="cover-demo">Text + Sound<br><em>everything.</em></div>
+          <div class="product-badge-free">BEST VALUE</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Both packs</div>
+          <div class="product-name">Everything Bundle</div>
+          <div class="product-desc">TextMotion Pack and SoundVault 300 together. One download, all future updates free forever.</div>
+          <div class="product-footer">
+            <div class="product-price">$12.99 <span><s>$14.98</s> one-time</span></div>
+            <a class="btn-buy" href="#" onclick="event.preventDefault(); event.stopPropagation(); openModal('bundle')">Get it →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="text" onclick="openModal('textmotion')">
+        <div class="product-img text-cover">
+          <div class="cover-demo" id="coverAnim">move <em>fast.</em></div>
+          <div class="product-badge-new">NEW</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">AE + Premiere Extension</div>
+          <div class="product-name">TextMotion Pack</div>
+          <div class="product-desc">26 text animations for After Effects and Premiere Pro. Live preview, In &amp; Out, one click, fully editable.</div>
+          <div class="product-footer">
+            <div class="product-price">$9.99 <span>one-time</span></div>
+            <a class="btn-buy" href="#" onclick="event.preventDefault(); event.stopPropagation(); openModal('textmotion')">Get it →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="sfx" onclick="openModal('soundvault')">
+        <div class="product-img sfx-cover">
+          <div class="cover-wave"><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Sound Effects</div>
+          <div class="product-name">SoundVault 300</div>
+          <div class="product-desc">300 sound effects (WAV) for video editors. Whooshes, pops, impacts, risers, UI and more. Works in any editor.</div>
+          <div class="product-footer">
+            <div class="product-price">$4.99 <span>one-time</span></div>
+            <a class="btn-buy" href="#" onclick="event.preventDefault(); event.stopPropagation(); openModal('soundvault')">Get it →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="soon" style="opacity:0.6;">
+        <div class="product-img" style="background: var(--bg2);">
+          <div style="font-size:56px;">🔒</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Coming Soon</div>
+          <div class="product-name">???</div>
+          <div class="product-desc">Something new is cooking. Stay tuned.</div>
+          <div class="product-footer">
+            <div class="product-price">Soon</div>
+            <button class="btn-buy" style="opacity:0.4;" disabled>Notify me</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SOUNDS ══════════════ -->
+<section style="padding: 0 0 100px; background: var(--bg);">
+  <div class="section" id="sounds" style="padding-top: 0; padding-bottom: 0;">
+    <div class="section-header">
+      <div>
+        <div class="section-label">SoundVault 300 · Live Previews</div>
+        <div class="section-title">Hear it first.</div>
+      </div>
+    </div>
+    <div class="sounds-grid" id="soundsGrid"></div>
+    <div class="sounds-foot">
+      <p>8 of the 300 sounds, previewed live in your browser (synthesized previews). WAV 48 kHz, level-matched, royalty-free.</p>
+      <a class="btn-buy" href="#" onclick="event.preventDefault(); openModal('soundvault')">Get all 300 sounds · $4.99 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FEATURED ══════════════ -->
+<section class="featured-section" id="featured">
+  <div class="featured-inner">
+    <div>
+      <div class="featured-label">Featured Pack · New</div>
+      <div class="featured-title">Text<br>Motion Pack</div>
+      <div class="featured-desc">26 text animations for After Effects <em>and</em> Premiere Pro. Preview them with your own text, tweak, click once — on one layer or twenty. Everything stays editable.</div>
+      <div class="featured-features">
+        <div class="feature-item"><div class="feature-dot"></div>26 presets — Apple-style reveals, Pop, Typing, Flip, Blur, Bounce…</div>
+        <div class="feature-item"><div class="feature-dot"></div>In &amp; Out animations — In only, Out only, or both</div>
+        <div class="feature-item"><div class="feature-dot"></div>Letter / Word / Line · 4 directions · Bounce or Smooth</div>
+        <div class="feature-item"><div class="feature-dot"></div>Glow, light sweep and built-in sound effects</div>
+        <div class="feature-item"><div class="feature-dot"></div>Editable sliders after apply — or bake to keyframes</div>
+        <div class="feature-item"><div class="feature-dot"></div>One-time purchase, free updates forever</div>
+      </div>
+      <div class="featured-btns">
+        <a href="#" onclick="event.preventDefault(); openModal('textmotion')" class="btn-white">Get TextMotion Pack — <s style="opacity:.55">$9.99</s> $6.99 →</a>
+        <a href="#try" class="btn-ghost">Try it live</a>
+      </div>
+    </div>
+    <div class="featured-visual">
+      <div class="mock-header">
+        <div class="mock-title">TextMotion · presets</div>
+        <div class="mock-badge">26 loaded</div>
+      </div>
+      <div class="mock-row"><div class="mock-name">Apple Reveal</div><div class="mock-cat">smooth · blur</div><div class="mock-play">▶ preview</div></div>
+      <div class="mock-row"><div class="mock-name">Pop Scale</div><div class="mock-cat">bounce · scale</div><div class="mock-play">▶ preview</div></div>
+      <div class="mock-row"><div class="mock-name">Typing</div><div class="mock-cat">caret · step</div><div class="mock-play">▶ preview</div></div>
+      <div class="mock-row"><div class="mock-name">Decode</div><div class="mock-cat">glitch · scan</div><div class="mock-play">▶ preview</div></div>
+      <div class="mock-row"><div class="mock-name">Flip In</div><div class="mock-cat">skew · rotate</div><div class="mock-play">▶ preview</div></div>
+      <div class="mock-row"><div class="mock-name">Counter</div><div class="mock-cat">number · odometer</div><div class="mock-play">▶ preview</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ HOW IT WORKS ══════════════ -->
+<section class="how-section" id="how">
+  <div class="section-header" style="margin-bottom: 0;">
+    <div>
+      <div class="section-label">How it works</div>
+      <div class="section-title">From text to motion<br>in four steps.</div>
+    </div>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon">🧩</div>
+      <div class="step-title">Open the panel</div>
+      <div class="step-desc">One-click installer, then Window → Extensions inside your editor.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon">✍️</div>
+      <div class="step-title">Select your text</div>
+      <div class="step-desc">One layer or twenty. Nothing selected? A new text layer is created.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon">🎛️</div>
+      <div class="step-title">Pick &amp; tweak</div>
+      <div class="step-desc">Preview any preset live, then adjust speed, direction and style.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-icon">⚡</div>
+      <div class="step-title">Apply</div>
+      <div class="step-desc">One click. Everything stays editable with sliders, or bake to keyframes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ REVIEW ══════════════ -->
+<section class="review-section">
+  <div class="review-head">
+    <div class="section-label">Real feedback · from customers</div>
+    <div class="section-title">What creators say.</div>
+  </div>
+  <div class="review-card">
+    <div class="review-stars">★★★★★</div>
+    <div class="review-text">“Replace this with your first real customer review. Specific beats short: what they made, what it saved them, what surprised them.”</div>
+    <div class="review-who"><b>Your Customer</b> · Motion Designer · verified purchase</div>
+  </div>
+</section>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div>
+      <div class="about-avatar">🎬</div>
+      <div class="about-name">About Kinekit</div>
+      <div class="about-desc">Kinekit builds tools for video editors and motion designers. Every pack starts from a real problem in our own edits: slow text animations, hunting for sounds, piecing together presets from ten different tutorials. We fix it once, properly, and make it available to you — with free updates for life.</div>
+      <div class="about-tags">
+        <div class="about-tag">After Effects</div>
+        <div class="about-tag">Premiere Pro</div>
+        <div class="about-tag">Sound Design</div>
+        <div class="about-tag">Motion Design</div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div class="about-stat-row">
+        <div class="about-stat-card">
+          <div class="about-stat-num">2</div>
+          <div class="about-stat-label">Packs</div>
+        </div>
+        <div class="about-stat-card">
+          <div class="about-stat-num">300</div>
+          <div class="about-stat-label">Sound effects</div>
+        </div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat-card">
+          <div class="about-stat-num">∞</div>
+          <div class="about-stat-label">Free updates</div>
+        </div>
+        <div class="about-stat-card">
+          <div class="about-stat-num">24h</div>
+          <div class="about-stat-label">Support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FAQ ══════════════ -->
+<div class="faq-section" id="faq">
+  <div class="faq-head">
+    <div class="section-label">FAQ</div>
+    <div class="section-title">Questions?</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can I try before I buy? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. <a href="#try">Try the animations live</a> on this page with your own text, and <a href="#sounds">listen to sound previews</a> from SoundVault 300.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Mac or Windows? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Both. All Kinekit packs work on macOS and Windows.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Does TextMotion work in Premiere Pro? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. The panel works in both After Effects (2019 or newer) and Premiere Pro (2021 or newer) — one installer, one license. SoundVault 300 works in any editor: Premiere, Resolve, Final Cut, CapCut and more.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Do I get free updates? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes — updates are free forever. New presets and sounds are added regularly, and you always get them at no extra cost.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">What file formats are the sounds? <span class="faq-icon">+</span></div>
+    <div class="faq-a">WAV, 48 kHz, level-matched and organized in folders by category, with a sound list PDF so you can find what you need fast.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can I use these commercially? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. Once purchased, use in any personal or commercial project. No royalties, no attribution needed.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">How do I contact support? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Email <a href="mailto:you@example.com">you@example.com</a> or DM on Instagram. Response within 24 hours.</div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">kinekit<span>.</span></div>
+    <div class="footer-links">
+      <a href="#try">Try it live</a>
+      <a href="#products">Products</a>
+      <a href="#sounds">Sounds</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Kinekit. All rights reserved.</span>
+    <span>Tools for editors · you@example.com</span>
+  </div>
+</footer>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════ PRODUCT DATA (edit links to your Gumroad/store URLs) ══════════════ */
+const products = {
+  bundle: {
+    cat: 'Both Packs',
+    title: 'Everything Bundle',
+    desc: 'TextMotion Pack and SoundVault 300 together. Everything you need to edit faster, one download, all future updates free.',
+    features: [
+      '26 text animations for After Effects & Premiere Pro',
+      '300 sound effects in categorized folders',
+      'All future updates free forever',
+      'One-time purchase, use commercially'
+    ],
+    price: '$12.99',
+    link: ''
+  },
+  textmotion: {
+    cat: 'After Effects + Premiere Pro Extension',
+    title: 'TextMotion Pack',
+    desc: '26 text animations for After Effects and Premiere Pro. Live preview with your own text, tweak it, click once — on one layer or twenty. Everything stays editable.',
+    features: [
+      '26 presets incl. Apple-style reveals, Pop, Typing, Flip, Decode, Counter',
+      'In & Out animations: In only, Out only or both',
+      'Letter / Word / Line, direction, Bounce, speed control',
+      'Glow, light sweep and built-in sound effects',
+      'Editable sliders after apply — or bake to keyframes',
+      'One-click installer · AE 2019+ & Premiere 2021+, Windows & macOS'
+    ],
+    price: '$9.99',
+    link: ''
+  },
+  soundvault: {
+    cat: 'Sound Effects',
+    title: 'SoundVault 300',
+    desc: '300 sound effects for video editors and content creators. WAV 48 kHz, level-matched, ready to drop on your timeline.',
+    features: [
+      '300 sound effects in categorized folders',
+      'Whooshes, pops, UI, glitches, impacts, risers',
+      'WAV 48 kHz, level-matched, sound list PDF',
+      'Works in Premiere, After Effects, Resolve, Final Cut, CapCut',
+      'Use in personal and client projects'
+    ],
+    price: '$4.99',
+    link: ''
+  }
+};
+
+function openModal(id) {
+  const p = products[id];
+  if (!p) return;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-cat">${p.cat}</div>
+    <div class="modal-title">${p.title}</div>
+    <div class="modal-desc">${p.desc}</div>
+    <div class="modal-features">${p.features.map(f => `<div class="modal-feature">${f}</div>`).join('')}</div>
+    <div class="modal-footer">
+      <div class="modal-price">${p.price} <small>one-time</small></div>
+      ${p.link
+        ? `<a href="${p.link}" target="_blank" rel="noopener" class="btn-buy" style="font-size:15px; padding:14px 32px;">Get it Now →</a>`
+        : `<button class="btn-buy" disabled style="font-size:15px; padding:14px 32px; opacity:0.45; cursor:not-allowed;">🔒 Payments coming soon</button>`}
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+function toggleFaq(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+/* ══════════════ MOTION PLAYGROUND — style picker + live controls ══════════════
+   Same architecture as kreevo's MotionType demo: one WAAPI engine, per-style
+   keyframe recipes, universal controls applied to every style. */
+const PG_STYLES = [
+  { id:'rise',   name:'Rise Smooth', pv:'rise',  amt:60,  blur:6,  dur:0.7, stag:0.04 },
+  { id:'apple',  name:'Apple Reveal',pv:'apple', amt:50,  blur:16, dur:1.0, stag:0.035, dir:false },
+  { id:'pop',    name:'Pop Scale',   pv:'pop',   amt:100, blur:0,  dur:0.55,stag:0.04, bounce:1, dir:false },
+  { id:'popUp',  name:'Pop Up',      pv:'popUp', amt:70,  blur:0,  dur:0.65,stag:0.04, bounce:1 },
+  { id:'zip',    name:'Zip',         pv:'zip',   amt:280, blur:0,  dur:0.4, stag:0.03 },
+  { id:'blurIn', name:'Blur In',     pv:'blurIn',amt:0,   blur:24, dur:0.8, stag:0.03, dir:false },
+  { id:'drop',   name:'Bounce',      pv:'drop',  amt:80,  blur:0,  dur:0.7, stag:0.05, bounce:1 },
+  { id:'flip',   name:'Flip',        pv:'flip',  amt:150, blur:4,  dur:0.6, stag:0.04, bounce:1, dir:false },
+  { id:'spin',   name:'Spin',        pv:'spin',  amt:100, blur:6,  dur:0.8, stag:0.04, dir:false },
+  { id:'wave',   name:'Wave',        pv:'wave',  amt:60,  blur:0,  dur:0.8, stag:0.05, bounce:1 },
+  { id:'track',  name:'Tracking In', pv:'track', amt:100, blur:6,  dur:1.0, stag:0,   dir:false },
+  { id:'typing', name:'Typing',      pv:'type',  amt:0,   blur:0,  dur:0.05,stag:0.09, dir:false },
+  { id:'decode', name:'Decode',      pv:'decode',amt:0,   blur:0,  dur:0.9, stag:0.04, dir:false }
+];
+const PG_COLORS = ['#ffffff', '#8b5cf6', '#22d3ee', '#ffb454', '#4ade80', 'grad'];
+const PG_DIRV = { up:[0,1], down:[0,-1], left:[1,0], right:[-1,0] };
+const PG_SCR = '!<>-_/[]{}=+*^?#0123456789ABCDEF';
+const pgText = document.getElementById('pgText');
+const pgInput = document.getElementById('pgInput');
+const pgSweep = document.getElementById('pgSweep');
+const pgPlayBtn = document.getElementById('pgPlay');
+
+const pg = { style: PG_STYLES[0], unit:'letter', bounce:0, dir:'up',
+             amt:60, delay:0.04, dur:0.7, blur:8,
+             glow:0, sweep:0, sfx:0, sfxName:'Whoosh', color:'#ffffff' };
+let pgAnims = [], pgTimers = [], pgIvs = [], pgLoopT = null;
+
+function pgStop() {
+  pgAnims.forEach(a => { try { a.cancel(); } catch (e) {} });
+  pgAnims = [];
+  pgTimers.forEach(clearTimeout); pgTimers = [];
+  pgIvs.forEach(clearInterval); pgIvs = [];
+  clearTimeout(pgLoopT);
+}
+
+function pgFmt() {
+  document.getElementById('pgVAmount').textContent = pg.amt + ' px';
+  document.getElementById('pgVDelay').textContent = pg.delay.toFixed(2) + ' s';
+  document.getElementById('pgVDur').textContent = pg.dur.toFixed(1) + ' s';
+  document.getElementById('pgVBlur').textContent = pg.blur + ' px';
+  ['pgAmount','pgDelay','pgDur','pgBlur'].forEach(id => {
+    const el = document.getElementById(id);
+    el.style.setProperty('--p', (el.value - el.min) / (el.max - el.min) * 100 + '%');
+  });
+}
+
+function pgSeg(id, v) {
+  document.querySelectorAll('#' + id + ' button').forEach(b =>
+    b.classList.toggle('on', b.dataset.v === String(v)));
+}
+
+function pgLoadStyle(s) {
+  pg.style = s;
+  pg.amt = s.amt; pg.blur = s.blur; pg.dur = s.dur; pg.delay = s.stag;
+  pg.bounce = s.bounce ? 1 : 0;
+  document.getElementById('pgAmount').value = pg.amt;
+  document.getElementById('pgDelay').value = Math.round(pg.delay * 100);
+  document.getElementById('pgDur').value = Math.round(pg.dur * 10);
+  document.getElementById('pgBlur').value = pg.blur;
+  pgSeg('pgEase', pg.bounce);
+  document.getElementById('pgDirRow').style.display = s.dir === false ? 'none' : '';
+  pgFmt();
+}
+
+/* style chips */
+PG_STYLES.forEach(s => {
+  const b = document.createElement('button');
+  b.className = 'pg-style' + (s === pg.style ? ' active' : '');
+  b.textContent = s.name;
+  b.onclick = () => {
+    document.querySelectorAll('.pg-style').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    pgLoadStyle(s);
+    pgPlay();
+  };
+  document.getElementById('pgStyles').appendChild(b);
+});
+
+/* color swatches */
+PG_COLORS.forEach((c, i) => {
+  const b = document.createElement('button');
+  b.style.background = c === 'grad' ? 'linear-gradient(90deg,#8b5cf6,#22d3ee)' : c;
+  if (i === 0) b.classList.add('on');
+  b.onclick = () => {
+    document.querySelectorAll('.pg-colors button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    pg.color = c;
+    pgPlay();
+  };
+  document.getElementById('pgColors').appendChild(b);
+});
+
+/* segmented controls */
+document.querySelectorAll('#pgUnit button').forEach(b => {
+  b.onclick = () => { pg.unit = b.dataset.v; pgSeg('pgUnit', pg.unit); pgPlay(); };
+});
+document.querySelectorAll('#pgEase button').forEach(b => {
+  b.onclick = () => { pg.bounce = +b.dataset.v; pgSeg('pgEase', pg.bounce); pgPlay(); };
+});
+document.querySelectorAll('#pgDir button').forEach(b => {
+  b.onclick = () => { pg.dir = b.dataset.v; pgSeg('pgDir', pg.dir); pgPlay(); };
+});
+
+/* sliders — every adjustment replays instantly, on every style */
+document.getElementById('pgAmount').oninput = function () { pg.amt = +this.value; pgFmt(); pgPlay(); };
+document.getElementById('pgDelay').oninput  = function () { pg.delay = this.value / 100; pgFmt(); pgPlay(); };
+document.getElementById('pgDur').oninput    = function () { pg.dur = this.value / 10; pgFmt(); pgPlay(); };
+document.getElementById('pgBlur').oninput   = function () { pg.blur = +this.value; pgFmt(); pgPlay(); };
+
+/* FX toggles */
+document.querySelectorAll('.pg-sw').forEach(sw => {
+  sw.onclick = () => {
+    const fx = sw.dataset.fx;
+    pg[fx] = pg[fx] ? 0 : 1;
+    sw.classList.toggle('on', !!pg[fx]);
+    if (fx === 'sfx' && pg.sfx) { pg.sfxName = document.getElementById('pgSfxSel').value; }
+    pgPlay();
+  };
+});
+document.getElementById('pgSfxSel').onchange = function () {
+  pg.sfxName = this.value;
+  pg.sfx = 1;
+  document.querySelector('.pg-sw[data-fx="sfx"]').classList.add('on');
+  pgPlay();
+};
+
+function pgMix(a, b, t) {
+  const pa = [1, 3, 5].map(i => parseInt(a.substr(i, 2), 16));
+  const pb = [1, 3, 5].map(i => parseInt(b.substr(i, 2), 16));
+  return 'rgb(' + pa.map((v, i) => Math.round(v + (pb[i] - v) * t)).join(',') + ')';
+}
+
+function pgScramble(sp, real, d0, D, t0) {
+  const iv = setInterval(() => {
+    const t = performance.now() - t0;
+    sp.textContent = t > d0 + D * 0.7 ? real : PG_SCR[Math.random() * PG_SCR.length | 0];
+    if (t > d0 + D) { clearInterval(iv); sp.textContent = real; }
+  }, 40);
+  pgIvs.push(iv);
+}
+
+function pgSound() {
+  if (!pg.sfx || !window.__pgSynths) return;
+  try {
+    const ctx = audioCtx();
+    const master = ctx.createGain(); master.gain.value = 0.8;
+    master.connect(ctx.destination);
+    window.__pgSynths[pg.sfxName](ctx, master);
+  } catch (e) {}
+}
+
+const pgEaseSm = 'cubic-bezier(.2,.9,.25,1)';
+const pgEaseBo = 'cubic-bezier(.34,1.7,.5,1)';
+
+function pgPlay() {
+  pgStop();
+  const text = pgInput.value || 'Kinekit';
+  const s = pg.style;
+  const parts = pg.unit === 'word' ? text.split(/(\s+)/) : [...text];
+  pgText.innerHTML = '';
+  pgText.style.color = pg.color === 'grad' ? '' : pg.color;
+  pgText.style.textShadow = 'none';
+  const spans = parts.map(ch => {
+    const sp = document.createElement('span');
+    sp.className = 'ltr';
+    sp.textContent = ch === ' ' ? '\u00A0' : ch;
+    pgText.appendChild(sp);
+    return sp;
+  });
+  if (s.pv === 'type') {
+    const c = document.createElement('span');
+    c.className = 'pg-caret';
+    pgText.appendChild(c);
+  }
+
+  const dv = PG_DIRV[pg.dir] || PG_DIRV.up;
+  const A = pg.amt, B = pg.blur * 0.6, D = pg.dur * 1000;
+  const ease = pg.bounce ? pgEaseBo : pgEaseSm;
+  const col = pg.color === 'grad' ? '#ffffff' : pg.color;
+  if (pg.glow) pgText.style.textShadow = '0 0 10px ' + col + ', 0 0 28px ' + col + ', 0 0 60px ' + col + '88';
+  const grad = pg.color === 'grad';
+  const len = spans.length;
+  const t0 = performance.now();
+  let n = 0;
+
+  spans.forEach((sp, i) => {
+    if (grad) sp.style.color = pgMix('#8b5cf6', '#22d3ee', len > 1 ? i / (len - 1) : 0);
+    const nonSpace = parts[i].trim() !== '';
+    const f1 = { opacity: 1, filter: 'blur(0px)', transform: 'none' };
+    const f0 = { opacity: 0, filter: 'blur(' + B + 'px)' };
+    let k, dur = D, dly = n * pg.delay * 1000;
+    switch (s.pv) {
+      /* pure vertical rise — translation only */
+      case 'rise': k = [{ ...f0, transform: 'translate(' + (dv[0] * A) + 'px,' + (dv[1] * A) + 'px)' }, f1]; break;
+      /* soft zoom-settle: scales down into place, no travel */
+      case 'apple': k = [{ opacity: 0, filter: 'blur(' + Math.max(B, 8) + 'px)', transform: 'scale(' + (1 + A / 120) + ')' }, f1]; break;
+      /* hard horizontal dash with skew — feels like a fast cut */
+      case 'zip': k = [{ opacity: 0, filter: 'blur(' + Math.max(B, 10) + 'px)', transform: 'translateX(' + (dv[1] === 0 ? dv[0] : (pg.dir === 'left' ? 1 : -1)) * A * 1.5 + 'px) skewX(' + (dv[0] >= 0 ? -14 : 14) + 'deg)' },
+                        { opacity: 1, transform: 'skewX(0deg)', filter: 'blur(0px)', offset: .7 }, f1]; break;
+      /* scale-from-zero pop with overshoot */
+      case 'pop': {
+        const s0 = Math.max(0, 1 - A / 100);
+        k = [{ ...f0, transform: 'scale(' + s0 + ') rotate(-8deg)' },
+             { opacity: 1, transform: 'scale(1.15) rotate(0deg)', filter: 'blur(0px)', offset: .65 }, f1];
+        break;
+      }
+      /* rises from below while shrinking — landing feel */
+      case 'popUp': k = [{ ...f0, transform: 'translate(' + (dv[0] * A * .7) + 'px,' + (dv[1] * A * .7) + 'px) scale(1.35)' }, f1]; break;
+      /* blur-only reveal: no movement at all, focus pull */
+      case 'blurIn': k = [{ opacity: 0, filter: 'blur(' + Math.max(B, 6) + 'px) brightness(1.6)', transform: 'scale(1.06)' }, f1]; break;
+      /* gravity drop with overshoot */
+      case 'drop':
+        k = [{ opacity: 0, transform: 'translateY(' + (-A * 0.011) + 'em)', filter: 'blur(' + B + 'px)' },
+             { opacity: 1, transform: 'translateY(0.12em)', filter: 'blur(0px)', offset: .55 },
+             { transform: 'translateY(-0.06em)', offset: .75 }, f1];
+        break;
+      /* vertical squash flip */
+      case 'flip': k = [{ ...f0, transform: 'scaleY(' + Math.max(0, 1 - A / 150) + ')' }, f1]; break;
+      /* spiral: rotation + scale collapse */
+      case 'spin': k = [{ ...f0, transform: 'rotate(' + (-(60 + A * 1.2)) + 'deg) scale(' + Math.max(0, 1 - A / 100) + ')' }, f1]; break;
+      /* oscillating pendulum wave — sways side to side */
+      case 'wave':
+        k = [{ opacity: 0, transform: 'translate(0,' + (dv[1] * A) + 'px) rotate(-25deg)' },
+             { transform: 'rotate(14deg)', offset: .35 },
+             { transform: 'rotate(-8deg)', offset: .6 },
+             { transform: 'rotate(3deg)', offset: .82 }, f1];
+        break;
+      /* letters converge from the sides toward center */
+      case 'track': k = [{ opacity: 0, filter: 'blur(' + B + 'px)', transform: 'translateX(' + ((i - len / 2) * A * 0.15) + 'px)' }, f1]; break;
+      /* typewriter hold */
+      case 'type': k = [{ opacity: 0 }, { opacity: 0, offset: .99 }, { opacity: 1 }]; dur = 1; dly = n * pg.delay * 1000; break;
+      /* scramble then settle */
+      case 'decode': k = [{ opacity: 0 }, { opacity: 0, offset: .99 }, { opacity: 1 }]; dur = 1; dly = n * pg.delay * 1000; break;
+      default: k = [{ ...f0, transform: 'translate(' + (dv[0] * A) + 'px,' + (dv[1] * A) + 'px)' }, f1];
+    }
+    pgAnims.push(sp.animate(k, { duration: dur, delay: dly, easing: ease, fill: 'backwards' }));
+    if (s.pv === 'decode') pgScramble(sp, parts[i] === ' ' ? '\u00A0' : parts[i], dly, D, t0);
+    if (nonSpace) n++;
+  });
+
+  const total = D + n * pg.delay * 1000;
+  if (pg.sweep) {
+    pgAnims.push(pgSweep.animate(
+      [{ transform: 'translateX(-140%)' }, { transform: 'translateX(140%)' }],
+      { duration: 900, delay: total * 0.85, easing: 'ease-in-out', fill: 'both' }));
+  }
+  if (pg.sfx) pgSound();
+  pgLoopT = setTimeout(pgPlay, Math.max(total + 1600, 1800));
+}
+
+pgInput.addEventListener('input', pgPlay);
+pgPlayBtn.addEventListener('click', pgPlay);
+pgFmt();
+pgPlay();
+
+/* ══════════════ SYNTHESIZED SOUND PREVIEWS (Web Audio API — no files needed) ══════════════ */
+const SOUNDS = ['Whoosh', 'Pop', 'Ding', 'Riser', 'Impact', 'Glitch', 'Coin', 'Boing'];
+const grid = document.getElementById('soundsGrid');
+let actx = null, curBtn = null;
+
+function audioCtx() {
+  if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function noiseBuffer(ctx, secs) {
+  const buf = ctx.createBuffer(1, ctx.sampleRate * secs, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  return buf;
+}
+
+/* each synth returns the duration it plays */
+const synths = {
+  Whoosh(ctx, out) {
+    const t = ctx.currentTime, dur = 0.9;
+    const src = ctx.createBufferSource(); src.buffer = noiseBuffer(ctx, dur);
+    const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 1.2;
+    f.frequency.setValueAtTime(300, t);
+    f.frequency.exponentialRampToValueAtTime(3500, t + dur * 0.6);
+    f.frequency.exponentialRampToValueAtTime(400, t + dur);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.5, t + dur * 0.5);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(f).connect(g).connect(out); src.start(t); src.stop(t + dur);
+    return dur;
+  },
+  Pop(ctx, out) {
+    const t = ctx.currentTime, dur = 0.25;
+    const o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(700, t);
+    o.frequency.exponentialRampToValueAtTime(120, t + 0.12);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.6, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+    o.connect(g).connect(out); o.start(t); o.stop(t + 0.2);
+    return dur;
+  },
+  Ding(ctx, out) {
+    const t = ctx.currentTime, dur = 1.2;
+    [880, 1320].forEach((fr, i) => {
+      const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = fr;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(i ? 0.15 : 0.3, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur - i * 0.2);
+      o.connect(g).connect(out); o.start(t); o.stop(t + dur);
+    });
+    return dur;
+  },
+  Riser(ctx, out) {
+    const t = ctx.currentTime, dur = 1.6;
+    const src = ctx.createBufferSource(); src.buffer = noiseBuffer(ctx, dur);
+    const f = ctx.createBiquadFilter(); f.type = 'highpass';
+    f.frequency.setValueAtTime(200, t);
+    f.frequency.exponentialRampToValueAtTime(6000, t + dur);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.001, t);
+    g.gain.exponentialRampToValueAtTime(0.4, t + dur * 0.9);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    src.connect(f).connect(g).connect(out); src.start(t); src.stop(t + dur);
+    return dur;
+  },
+  Impact(ctx, out) {
+    const t = ctx.currentTime, dur = 0.8;
+    const o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(160, t);
+    o.frequency.exponentialRampToValueAtTime(35, t + 0.4);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.8, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+    o.connect(g).connect(out); o.start(t); o.stop(t + 0.7);
+    const n = ctx.createBufferSource(); n.buffer = noiseBuffer(ctx, 0.15);
+    const ng = ctx.createGain();
+    ng.gain.setValueAtTime(0.25, t);
+    ng.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+    n.connect(ng).connect(out); n.start(t);
+    return dur;
+  },
+  Glitch(ctx, out) {
+    const t = ctx.currentTime;
+    let off = 0;
+    for (let i = 0; i < 7; i++) {
+      const o = ctx.createOscillator(); o.type = 'square';
+      o.frequency.value = 400 + Math.random() * 2200;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.12, t + off);
+      g.gain.exponentialRampToValueAtTime(0.001, t + off + 0.05);
+      o.connect(g).connect(out); o.start(t + off); o.stop(t + off + 0.06);
+      off += 0.04 + Math.random() * 0.05;
+    }
+    return off + 0.1;
+  },
+  Coin(ctx, out) {
+    const t = ctx.currentTime, dur = 0.7;
+    [[988, 0], [1319, 0.08]].forEach(([fr, dl]) => {
+      const o = ctx.createOscillator(); o.type = 'square'; o.frequency.value = fr;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.15, t + dl);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dl + 0.5);
+      o.connect(g).connect(out); o.start(t + dl); o.stop(t + dl + 0.55);
+    });
+    return dur;
+  },
+  Boing(ctx, out) {
+    const t = ctx.currentTime, dur = 0.8;
+    const o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(120, t);
+    o.frequency.exponentialRampToValueAtTime(480, t + 0.18);
+    o.frequency.exponentialRampToValueAtTime(140, t + 0.55);
+    o.frequency.exponentialRampToValueAtTime(300, t + 0.7);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.4, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g).connect(out); o.start(t); o.stop(t + dur);
+    return dur;
+  }
+};
+window.__pgSynths = synths;   /* bridge: motion playground plays these synced to animations */
+
+SOUNDS.forEach(name => {
+  const b = document.createElement('button');
+  b.className = 'snd'; b.type = 'button';
+  b.innerHTML = '<i>▶</i>' + name + '<span class="bars"><span></span><span></span><span></span><span></span></span>';
+  b.onclick = () => {
+    if (curBtn) { curBtn.classList.remove('on'); curBtn.querySelector('i').textContent = '▶'; }
+    if (curBtn === b) { curBtn = null; return; }
+    curBtn = b;
+    b.classList.add('on'); b.querySelector('i').textContent = '■';
+    try {
+      const ctx = audioCtx();
+      const master = ctx.createGain(); master.gain.value = 0.8; master.connect(ctx.destination);
+      const dur = synths[name](ctx, master);
+      setTimeout(() => {
+        if (curBtn === b) { b.classList.remove('on'); b.querySelector('i').textContent = '▶'; curBtn = null; }
+      }, dur * 1000 + 100);
+    } catch (e) {
+      b.classList.remove('on'); b.querySelector('i').textContent = '▶'; curBtn = null;
+    }
+  };
+  grid.appendChild(b);
+});
+
+/* ══════════════ Scroll nav shadow ══════════════ */
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.boxShadow = window.scrollY > 20 ? '0 2px 24px rgba(0,0,0,0.08)' : 'none';
+});
+</script>
+</body>
+</html>
