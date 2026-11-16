@@ -768,6 +768,25 @@
     .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
   }
+
+  /* ══════════ TextFX 50 live demo ══════════ */
+  .fx-stage {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(34px, 6vw, 52px); font-weight: 900; letter-spacing: -2px;
+    color: var(--white); text-align: center; line-height: 1.1;
+    will-change: transform, opacity, filter; position: relative;
+  }
+  .fx-stage.fx-neon-c { color: #fff; text-shadow: 0 0 6px #00e5ff, 0 0 18px #00e5ff, 0 0 44px #00b8d9, 0 0 90px #0091ea; }
+  .fx-stage.fx-neon-m { color: #fff; text-shadow: 0 0 6px #ff2ec4, 0 0 18px #ff2ec4, 0 0 44px #d500f9, 0 0 90px #aa00ff; }
+  .fx-stage.fx-glow   { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,.9), 0 0 26px rgba(255,255,255,.55), 0 0 70px rgba(255,255,255,.3); }
+  .fx-stage.fx-outline{ color: transparent; -webkit-text-stroke: 2.5px #fff; }
+  .fx-stage.fx-hard   { color: var(--white); text-shadow: 10px 10px 0 var(--accent); }
+  .fx-stage.fx-long   { color: var(--white); text-shadow: 1px 1px 0 var(--accent), 2px 2px 0 var(--accent), 3px 3px 0 var(--accent), 4px 4px 0 var(--accent), 5px 5px 0 var(--accent), 6px 6px 0 var(--accent), 7px 7px 0 var(--accent), 8px 8px 0 var(--accent), 9px 9px 0 var(--accent), 10px 10px 0 rgba(139,92,246,.45); }
+  .fx-rows { display: flex; flex-direction: column; gap: 12px; }
+  .fx-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .fx-trow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .fx-trow .pg-style { font-size: 12px; padding: 7px 11px; }
+  .fx-note { color: rgba(255,255,255,0.45); font-size: 12.5px; }
 </style>
 </head>
 <body>
@@ -777,6 +796,7 @@
   <a href="#" class="nav-logo">kinekit<span>.</span></a>
   <div class="nav-links">
     <a href="#try">Try it live</a>
+    <a href="#fx">TextFX demo</a>
     <a href="#products">Products</a>
     <a href="#sounds">Sounds</a>
     <a href="#faq">FAQ</a>
@@ -787,7 +807,7 @@
 <!-- ══════════════ HERO ══════════════ -->
 <section class="hero">
   <a class="promo" href="#featured">🔥 Launch week · <b>30% off</b> everything</a>
-  <div class="hero-badge">Text Animations · Sound Effects</div>
+  <div class="hero-badge">Text Animations · Text FX · Sound Effects</div>
   <h1>Tools for<br>editors who<br><em>move fast.</em></h1>
   <p class="hero-desc">Text animation packs and sound effect packs that drop straight onto your timeline. Built by editors, for editors — one click, everything stays editable.</p>
   <div class="hero-btns">
@@ -804,7 +824,11 @@
       <div class="stat-label">sound effects</div>
     </div>
     <div class="stat">
-      <div class="stat-num">2</div>
+      <div class="stat-num">50</div>
+      <div class="stat-label">text FX & transitions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3</div>
       <div class="stat-label">packs</div>
     </div>
     <div class="stat">
@@ -907,6 +931,7 @@
       <button class="filter-tab active" onclick="filterProducts('all', this)">All</button>
       <button class="filter-tab" onclick="filterProducts('text', this)">Text Animations</button>
       <button class="filter-tab" onclick="filterProducts('sfx', this)">Sound Effects</button>
+      <button class="filter-tab" onclick="filterProducts('premiere', this)">Premiere FX</button>
     </div>
 
     <div class="products-grid" id="productsGrid">
@@ -958,6 +983,22 @@
         </div>
       </div>
 
+      <div class="product-card" data-cat="premiere" onclick="openModal('textfx50')">
+        <div class="product-img sfx-cover">
+          <div class="cover-demo" style="text-shadow:0 0 8px #00e5ff,0 0 26px #00e5ff,0 0 60px #0091ea;">glow<br><em style="color:#fff; text-shadow:0 0 8px #ff2ec4,0 0 26px #ff2ec4;">&amp; glitch.</em></div>
+          <div class="product-badge-new">NEW</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Premiere Pro Presets</div>
+          <div class="product-name">TextFX 50</div>
+          <div class="product-desc">50 text effects &amp; transitions for Premiere Pro — neon, glitch, shake, flicker, slides, flips and more. No plugins, everything editable.</div>
+          <div class="product-footer">
+            <div class="product-price">$6.99 <span>one-time</span></div>
+            <a class="btn-buy" href="#" onclick="event.preventDefault(); event.stopPropagation(); openModal('textfx50')">Get it →</a>
+          </div>
+        </div>
+      </div>
+
       <div class="product-card" data-cat="soon" style="opacity:0.6;">
         <div class="product-img" style="background: var(--bg2);">
           <div style="font-size:56px;">🔒</div>
@@ -990,6 +1031,45 @@
     <div class="sounds-foot">
       <p>8 of the 300 sounds, previewed live in your browser (synthesized previews). WAV 48 kHz, level-matched, royalty-free.</p>
       <a class="btn-buy" href="#" onclick="event.preventDefault(); openModal('soundvault')">Get all 300 sounds · $4.99 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TEXTFX 50 · LIVE DEMO ══════════════ -->
+<section class="try-section" id="fx">
+  <div class="try-inner">
+    <div>
+      <div class="try-label">TextFX 50 · Live demo · no install</div>
+      <div class="try-title">Effects &amp; transitions<br><em>try them here.</em></div>
+      <div class="try-desc">A live taste of TextFX 50, our Premiere Pro preset pack. Every tile below is a browser recreation of a preset: glow, neon, glitch, shake, flicker — and six of the transitions, running in and settling. Same pack, same feel, on your timeline.</div>
+      <div class="try-list">
+        <div><b>1</b>Tap an effect to apply it to the text — tap another to switch</div>
+        <div><b>2</b>Fire a transition to watch it animate in, exactly like the preset</div>
+        <div><b>3</b>Type your own word — every effect follows</div>
+      </div>
+      <div class="featured-btns">
+        <a href="#products" class="btn-white">Get TextFX 50 · $6.99 →</a>
+      </div>
+    </div>
+    <div>
+      <div class="playground">
+        <div class="pg-body">
+          <div class="pg-preview"><div class="fx-stage" id="fxStage">KINEKIT</div></div>
+          <input class="pg-input" id="fxInput" type="text" value="KINEKIT" maxlength="14" spellcheck="false" aria-label="Text for TextFX demo">
+          <div class="pg-styles" id="fxStyles"></div>
+          <div class="pg-card">
+            <div class="fx-rows" style="padding:14px 16px;">
+              <div class="fx-lbl">Transitions — animate in</div>
+              <div class="fx-trow" id="fxTrans"></div>
+              <div class="fx-note">Every transition also ships as a matching Out preset.</div>
+            </div>
+          </div>
+          <div class="pg-foot">
+            <small>Browser demo of the actual preset looks · 50 presets in the pack</small>
+            <small style="opacity:.7">Premiere 2020+</small>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1185,7 +1265,7 @@ const products = {
   bundle: {
     cat: 'Both Packs',
     title: 'Everything Bundle',
-    desc: 'TextMotion Pack and SoundVault 300 together. Everything you need to edit faster, one download, all future updates free.',
+    desc: 'TextMotion Pack and SoundVault 300 together. Our two flagship packs, one download, all future updates free.',
     features: [
       '26 text animations for After Effects & Premiere Pro',
       '300 sound effects in categorized folders',
@@ -1222,6 +1302,21 @@ const products = {
       'Use in personal and client projects'
     ],
     price: '$4.99',
+    link: ''
+  },
+  textfx50: {
+    cat: 'Premiere Pro Presets',
+    title: 'TextFX 50',
+    desc: '50 text effects and transitions for Premiere Pro. Neon, glitch, shake, flicker, slides, flips, fisheye and more — drop them on any text or graphic clip, everything stays editable.',
+    features: [
+      '30 transitions — Slide ×4, Scale, Stretch, Blur ×2, Flip ×2, Swivel ×2, Twist, Fisheye',
+      'Every transition ships In + Out',
+      '20 effects — Glow, Neon, Outline, Glitch, Shake, Flicker, Static, Pulse, Zoom…',
+      'Built with stock Premiere effects only — no plugins required',
+      'Tuned ~1 s ramps that feel modern, not slow',
+      'Works in Premiere Pro 2020+, Windows & macOS'
+    ],
+    price: '$6.99',
     link: ''
   }
 };
@@ -1671,6 +1766,172 @@ SOUNDS.forEach(name => {
 window.addEventListener('scroll', () => {
   document.querySelector('nav').style.boxShadow = window.scrollY > 20 ? '0 2px 24px rgba(0,0,0,0.08)' : 'none';
 });
+
+/* ══════════════ TEXTFX 50 LIVE DEMO ══════════════
+   Browser recreations of the pack's presets: persistent looks via classes,
+   animated effects via WAAPI loops, transitions via one-shot In animations. */
+(function () {
+  const stage = document.getElementById('fxStage');
+  if (!stage) return;
+  const input = document.getElementById('fxInput');
+  const stylesEl = document.getElementById('fxStyles');
+  const transEl = document.getElementById('fxTrans');
+  let loops = [];
+  let activeChip = null;
+
+  input.addEventListener('input', () => {
+    stage.textContent = input.value || 'KINEKIT';
+    replay();
+  });
+
+  function stopLoops() {
+    loops.forEach(a => { try { a.cancel(); } catch (e) {} });
+    loops = [];
+  }
+  function replay() {
+    if (activeChip) activeChip._run();
+  }
+
+  /* effect chips: cls = persistent look, run = loop / one-shot WAAPI */
+  const FX = [
+    { name: 'Neon Cyan', cls: 'fx-neon-c', run() { loop(kfOpac(.88, 1), 2.4, 'ease-in-out'); } },
+    { name: 'Neon Magenta', cls: 'fx-neon-m', run() { loop(kfOpac(.88, 1), 2.4, 'ease-in-out'); } },
+    { name: 'Glow Soft', cls: 'fx-glow', run() { loop(kfOpac(.92, 1), 3, 'ease-in-out'); } },
+    { name: 'Outline', cls: 'fx-outline', run() {} },
+    { name: 'Hard Shadow', cls: 'fx-hard', run() {} },
+    { name: 'Long Shadow', cls: 'fx-long', run() {} },
+    { name: 'Glitch', run() {
+        stage.style.textShadow = '3px 0 #ff2ec4, -3px 0 #00e5ff';
+        loop([
+          { transform: 'translate(0,0)', clipPath: 'inset(0 0 0 0)', offset: 0 },
+          { transform: 'translate(-7px,2px)', clipPath: 'inset(12% 0 55% 0)', offset: .18 },
+          { transform: 'translate(6px,-2px)', clipPath: 'inset(0 0 0 0)', offset: .34 },
+          { transform: 'translate(0,0)', clipPath: 'inset(38% 0 22% 0)', offset: .52 },
+          { transform: 'translate(-4px,1px)', clipPath: 'inset(0 0 0 0)', offset: .7 },
+          { transform: 'translate(5px,1px)', clipPath: 'inset(62% 0 8% 0)', offset: .84 },
+          { transform: 'translate(0,0)', clipPath: 'inset(0 0 0 0)', offset: 1 }
+        ], .9, 'linear');
+      } },
+    { name: 'TV Static', run() {
+        loop([
+          { transform: 'translate(0,0)', filter: 'contrast(1)', offset: 0 },
+          { transform: 'translate(-3px,1px)', filter: 'contrast(1.4) brightness(1.2)', offset: .2 },
+          { transform: 'translate(3px,-1px)', filter: 'contrast(.8)', offset: .45 },
+          { transform: 'translate(-2px,-1px)', filter: 'contrast(1.5) brightness(1.3)', offset: .7 },
+          { transform: 'translate(2px,1px)', filter: 'contrast(1)', offset: 1 }
+        ], .28, 'linear');
+      } },
+    { name: 'Shake', run() {
+        loop([
+          { transform: 'translate(0,0)' }, { transform: 'translate(-6px,2px)' },
+          { transform: 'translate(5px,-3px)' }, { transform: 'translate(-4px,-2px)' },
+          { transform: 'translate(6px,1px)' }, { transform: 'translate(-3px,3px)' },
+          { transform: 'translate(0,0)' }
+        ], .5, 'linear');
+      } },
+    { name: 'Float', run() {
+        loop([
+          { transform: 'translate(0,0)' }, { transform: 'translate(0,-10px)' },
+          { transform: 'translate(0,0)' }, { transform: 'translate(0,8px)' },
+          { transform: 'translate(0,0)' }
+        ], 4.5, 'ease-in-out');
+      } },
+    { name: 'Pulse', run() {
+        loop([
+          { transform: 'scale(1)' }, { transform: 'scale(1.07)' }, { transform: 'scale(1)' }
+        ], 1.4, 'ease-in-out');
+      } },
+    { name: 'Zoom Punch', run() {
+        loop([
+          { transform: 'scale(1)', offset: 0 }, { transform: 'scale(1.28)', offset: .3 },
+          { transform: 'scale(.98)', offset: .55 }, { transform: 'scale(1)', offset: .7 },
+          { transform: 'scale(1)', offset: 1 }
+        ], 2.2, 'cubic-bezier(.22,1.6,.36,1)');
+      } },
+    { name: 'RGB Flash', run() {
+        stage.style.textShadow = '2px 0 #f00, -2px 0 #0ff';
+        loop([
+          { filter: 'invert(0)', offset: 0 }, { filter: 'invert(0)', offset: .38 },
+          { filter: 'invert(1)', offset: .42 }, { filter: 'invert(0)', offset: .46 },
+          { filter: 'invert(0)', offset: .88 }, { filter: 'invert(1)', offset: .92 },
+          { filter: 'invert(0)', offset: .96 }, { filter: 'invert(0)', offset: 1 }
+        ], 1.6, 'linear');
+      } },
+    { name: 'Flicker', run() {
+        loop([
+          { opacity: 1, offset: 0 }, { opacity: .25, offset: .08 }, { opacity: .9, offset: .16 },
+          { opacity: .1, offset: .24 }, { opacity: 1, offset: .34 }, { opacity: .5, offset: .5 },
+          { opacity: 1, offset: .62 }, { opacity: .2, offset: .78 }, { opacity: 1, offset: .9 },
+          { opacity: 1, offset: 1 }
+        ], 2.2, 'linear');
+      } }
+  ];
+
+  /* transition chips: one-shot In animations (each has a matching Out preset in the pack) */
+  const TRANS = [
+    { name: 'Slide', kf: [{ transform: 'translateX(-90%)', opacity: 0 }, { transform: 'translateX(0)', opacity: 1 }] },
+    { name: 'Blur', kf: [{ filter: 'blur(26px)', opacity: 0 }, { filter: 'blur(0px)', opacity: 1 }] },
+    { name: 'Scale', kf: [{ transform: 'scale(.02)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }] },
+    { name: 'Flip', kf: [{ transform: 'perspective(700px) rotateX(95deg)', opacity: 0 }, { transform: 'perspective(700px) rotateX(0)', opacity: 1 }] },
+    { name: 'Swivel', kf: [{ transform: 'perspective(700px) rotateY(100deg)', opacity: 0 }, { transform: 'perspective(700px) rotateY(0)', opacity: 1 }] },
+    { name: 'Twist', kf: [{ transform: 'rotate(-120deg) scale(.4)', opacity: 0 }, { transform: 'rotate(0) scale(1)', opacity: 1 }] },
+    { name: 'Fisheye', kf: [{ transform: 'scale(1.45)', filter: 'blur(6px)', opacity: 0 }, { transform: 'scale(1)', filter: 'blur(0px)', opacity: 1 }] }
+  ];
+
+  function loop(frames, dur, easing) {
+    const a = stage.animate(frames, { duration: dur * 1000, iterations: Infinity, easing: easing || 'linear' });
+    loops.push(a);
+  }
+  function kfOpac(from, to) {
+    return [{ opacity: from }, { opacity: to }, { opacity: from }];
+  }
+
+  function clearFx() {
+    stopLoops();
+    stage.className = 'fx-stage';
+    stage.style.textShadow = '';
+    stage.style.filter = '';
+    stage.style.clipPath = '';
+    stage.getAnimations().forEach(a => { try { a.cancel(); } catch (e) {} });
+  }
+
+  FX.forEach((fx, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'pg-style'; b.textContent = fx.name;
+    b.onclick = () => {
+      document.querySelectorAll('#fxStyles .pg-style').forEach(x => x.classList.remove('active'));
+      clearFx();
+      if (activeChip === fx) { activeChip = null; return; }
+      activeChip = fx;
+      b.classList.add('active');
+      if (fx.cls) stage.className = 'fx-stage ' + fx.cls;
+      fx.run();
+    };
+    if (i === 0) { /* start with a look applied so the panel is alive on load */ }
+    stylesEl.appendChild(b);
+  });
+
+  TRANS.forEach(t => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'pg-style'; b.textContent = t.name + ' In';
+    b.onclick = () => {
+      stopLoops();
+      const wasActive = activeChip;
+      const cls = activeChip ? activeChip.cls : '';
+      const shadow = stage.style.textShadow;
+      const a = stage.animate(t.kf, { duration: 950, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'backwards' });
+      a.onfinish = () => { if (wasActive) wasActive.run(); };
+      /* keep the current look during the transition */
+      if (cls) { stage.classList.add(cls); a.effect && null; }
+      if (shadow) stage.style.textShadow = shadow;
+      loops.push(a);
+    };
+    transEl.appendChild(b);
+  });
+
+  /* auto-apply the first look so the section demos itself on scroll */
+  if (stylesEl.firstChild) stylesEl.firstChild.click();
+})();
 </script>
 </body>
 </html>
