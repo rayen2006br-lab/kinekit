@@ -9,6 +9,8 @@
 <meta property="og:title" content="Kinekit — Tools for editors who move fast">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="studio/css/styles.css?v=1">
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -769,24 +771,6 @@
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
   }
 
-  /* ══════════ TextFX 50 live demo ══════════ */
-  .fx-stage {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(34px, 6vw, 52px); font-weight: 900; letter-spacing: -2px;
-    color: var(--white); text-align: center; line-height: 1.1;
-    will-change: transform, opacity, filter; position: relative;
-  }
-  .fx-stage.fx-neon-c { color: #fff; text-shadow: 0 0 6px #00e5ff, 0 0 18px #00e5ff, 0 0 44px #00b8d9, 0 0 90px #0091ea; }
-  .fx-stage.fx-neon-m { color: #fff; text-shadow: 0 0 6px #ff2ec4, 0 0 18px #ff2ec4, 0 0 44px #d500f9, 0 0 90px #aa00ff; }
-  .fx-stage.fx-glow   { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,.9), 0 0 26px rgba(255,255,255,.55), 0 0 70px rgba(255,255,255,.3); }
-  .fx-stage.fx-outline{ color: transparent; -webkit-text-stroke: 2.5px #fff; }
-  .fx-stage.fx-hard   { color: var(--white); text-shadow: 10px 10px 0 var(--accent); }
-  .fx-stage.fx-long   { color: var(--white); text-shadow: 1px 1px 0 var(--accent), 2px 2px 0 var(--accent), 3px 3px 0 var(--accent), 4px 4px 0 var(--accent), 5px 5px 0 var(--accent), 6px 6px 0 var(--accent), 7px 7px 0 var(--accent), 8px 8px 0 var(--accent), 9px 9px 0 var(--accent), 10px 10px 0 rgba(139,92,246,.45); }
-  .fx-rows { display: flex; flex-direction: column; gap: 12px; }
-  .fx-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-  .fx-trow { display: flex; flex-wrap: wrap; gap: 8px; }
-  .fx-trow .pg-style { font-size: 12px; padding: 7px 11px; }
-  .fx-note { color: rgba(255,255,255,0.45); font-size: 12.5px; }
 </style>
 </head>
 <body>
@@ -1035,43 +1019,204 @@
   </div>
 </section>
 
-<!-- ══════════════ TEXTFX 50 · LIVE DEMO ══════════════ -->
+<!-- ══════════════ TEXTFX 50 · LIVE STUDIO ══════════════ -->
 <section class="try-section" id="fx">
-  <div class="try-inner">
-    <div>
-      <div class="try-label">TextFX 50 · Live demo · no install</div>
-      <div class="try-title">Effects &amp; transitions<br><em>try them here.</em></div>
-      <div class="try-desc">A live taste of TextFX 50, our Premiere Pro preset pack. Every tile below is a browser recreation of a preset: glow, neon, glitch, shake, flicker — and six of the transitions, running in and settling. Same pack, same feel, on your timeline.</div>
-      <div class="try-list">
-        <div><b>1</b>Tap an effect to apply it to the text — tap another to switch</div>
-        <div><b>2</b>Fire a transition to watch it animate in, exactly like the preset</div>
-        <div><b>3</b>Type your own word — every effect follows</div>
-      </div>
-      <div class="featured-btns">
-        <a href="#products" class="btn-white">Get TextFX 50 · $6.99 →</a>
-      </div>
+<div class="studio" id="demoStudio" data-lib="open">
+    <div class="studio-bar">
+      <div class="studio-id"><span class="studio-led"></span>TextFX 50 <b>Live Studio</b></div>
+      <div class="studio-meta"><span id="libCount">40 styles</span><i></i><span>Browser preview</span></div>
+      <button class="studio-browse" id="browseBtn" type="button" aria-expanded="true">Hide styles</button>
     </div>
-    <div>
-      <div class="playground">
-        <div class="pg-body">
-          <div class="pg-preview"><div class="fx-stage" id="fxStage">KINEKIT</div></div>
-          <input class="pg-input" id="fxInput" type="text" value="KINEKIT" maxlength="14" spellcheck="false" aria-label="Text for TextFX demo">
-          <div class="pg-styles" id="fxStyles"></div>
-          <div class="pg-card">
-            <div class="fx-rows" style="padding:14px 16px;">
-              <div class="fx-lbl">Transitions — animate in</div>
-              <div class="fx-trow" id="fxTrans"></div>
-              <div class="fx-note">Every transition also ships as a matching Out preset.</div>
+
+    <div class="studio-body">
+      <aside class="library" id="library" aria-label="Preset library">
+        <div class="lib-top">
+          <div class="lib-search">
+            <span class="lib-search-ico" aria-hidden="true">⌕</span>
+            <input id="styleSearch" type="search" placeholder="Search 40 styles…" autocomplete="off" spellcheck="false" aria-label="Search presets">
+            <button class="lib-clear" id="searchClear" type="button" aria-label="Clear search">×</button>
+          </div>
+          <div class="lib-chips" id="styleChips" role="group" aria-label="Filter presets by family"></div>
+        </div>
+        <div class="lib-list" id="styleList" role="list"></div>
+        <div class="lib-empty" id="libEmpty" hidden>No styles match that search. Try “rise”, “blur” or “kinetic”.</div>
+        <div class="lib-foot">
+          <span id="libFootNote">The same 40 presets that ship in Kinetype 2.5.</span>
+          <button class="lib-reset" id="resetAll" type="button" disabled>Reset tweaks</button>
+        </div>
+      </aside>
+
+      <div class="editor" id="editor">
+        <div class="ed-head">
+          <button class="ed-back" id="backToLib" type="button" aria-label="Back to the style library">‹</button>
+          <div class="ed-title">
+            <div class="ed-glyph" id="edGlyph">A</div>
+            <div class="ed-title-txt">
+              <h3 id="edName">Rise</h3>
+              <p id="edCat">Reveal · Letters lift into place from below.</p>
             </div>
           </div>
-          <div class="pg-foot">
-            <small>Browser demo of the actual preset looks · 50 presets in the pack</small>
-            <small style="opacity:.7">Premiere 2020+</small>
+          <button class="ed-reset" id="resetStyle" type="button" disabled title="No carried tweaks yet">↺ Reset all</button>
+        </div>
+
+        <div class="stage" id="stage">
+          <div class="stage-grid" aria-hidden="true"></div>
+          <div class="stage-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="stage-tag" aria-hidden="true">Preview</div>
+          <div class="stage-text" id="stageText" aria-hidden="true">Move fast.</div>
+          <div class="stage-sweep" id="stageSweep" aria-hidden="true"></div>
+          <div class="stage-foot">
+            <span class="stage-status" id="stageStatus"><i></i>Looping · In</span>
+            <div class="stage-actions">
+              <button class="stage-btn is-on" id="loopBtn" type="button" aria-pressed="true">Loop</button>
+              <button class="stage-btn" id="replayBtn" type="button">↻ Replay</button>
+            </div>
           </div>
+        </div>
+
+        <div class="ed-text">
+          <span class="ed-text-label">Preview text</span>
+          <textarea id="demoText" rows="1" maxlength="60" spellcheck="false" autocomplete="off" aria-label="Preview text">Move fast.</textarea>
+          <span class="ed-text-count" id="charCount">10/60</span>
+        </div>
+
+        <div class="controls">
+          <section class="ctl-card ctl-motion">
+            <header class="ctl-head"><h4>Motion</h4><span class="ctl-legend"><i></i>matches the panel</span></header>
+            <div class="ctl-quad">
+              <div class="ctl-field" data-key="phase">
+                <span class="ctl-lbl is-ship">Phase</span>
+                <div class="seg" id="phaseSeg" role="group" aria-label="Apply phase">
+                  <button data-v="in" type="button">In</button>
+                  <button data-v="out" type="button">Out</button>
+                  <button data-v="both" type="button">Both</button>
+                </div>
+              </div>
+              <div class="ctl-field" data-key="dir">
+                <span class="ctl-lbl is-ship">Direction</span>
+                <div class="seg dirs" id="dirSeg" role="group" aria-label="Direction">
+                  <button data-v="up" type="button" title="From below" aria-label="From below">↑</button>
+                  <button data-v="down" type="button" title="From above" aria-label="From above">↓</button>
+                  <button data-v="left" type="button" title="From the right" aria-label="From the right">←</button>
+                  <button data-v="right" type="button" title="From the left" aria-label="From the left">→</button>
+                </div>
+              </div>
+              <div class="ctl-field" data-key="unit">
+                <span class="ctl-lbl">Split by</span>
+                <div class="seg" id="unitSeg" role="group" aria-label="Split unit">
+                  <button data-v="letter" type="button">Letter</button>
+                  <button data-v="word" type="button">Word</button>
+                  <button data-v="line" type="button">Line</button>
+                </div>
+              </div>
+              <div class="ctl-field" data-key="feel">
+                <span class="ctl-lbl">Easing</span>
+                <div class="seg" id="feelSeg" role="group" aria-label="Easing">
+                  <button data-v="bounce" type="button">Bounce</button>
+                  <button data-v="smooth" type="button">Smooth</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="ctl-quad sliders">
+              <label class="sl" data-key="amount">
+                <span class="sl-top"><span class="ctl-lbl is-ship">Amount</span><b id="vAmount">100%</b></span>
+                <input type="range" id="amount" min="0" max="200" step="5" value="100" aria-label="Amount">
+              </label>
+              <label class="sl" data-key="delay">
+                <span class="sl-top"><span class="ctl-lbl">Delay</span><b id="vDelay">35 ms</b></span>
+                <input type="range" id="delay" min="0" max="300" step="5" value="35" aria-label="Delay between units">
+              </label>
+              <label class="sl" data-key="dur">
+                <span class="sl-top"><span class="ctl-lbl is-ship">Duration</span><b id="vDur">0.70s</b></span>
+                <input type="range" id="dur" min="0.1" max="2.4" step="0.05" value="0.7" aria-label="Duration">
+              </label>
+              <label class="sl" data-key="blur">
+                <span class="sl-top"><span class="ctl-lbl">Blur</span><b id="vBlur">0 px</b></span>
+                <input type="range" id="blur" min="0" max="60" step="1" value="0" aria-label="Blur">
+              </label>
+            </div>
+          </section>
+
+          <section class="ctl-card ctl-look">
+            <header class="ctl-head"><h4>Look</h4><span class="ctl-extra">playground</span></header>
+            <div class="ctl-field" data-key="colour">
+              <span class="ctl-lbl">Text colour</span>
+              <div class="colors" id="colorRow" role="group" aria-label="Text colour"></div>
+            </div>
+            <div class="fx-row" data-key="glow">
+              <span class="fx-ico" aria-hidden="true">✦</span>
+              <span class="fx-lbl"><b>Glow</b><small>Soft bloom around the glyphs</small></span>
+              <button class="sw" id="glowToggle" type="button" aria-pressed="false" aria-label="Glow"></button>
+            </div>
+            <div class="fx-row" data-key="sweep">
+              <span class="fx-ico" aria-hidden="true">⟋</span>
+              <span class="fx-lbl"><b>Light sweep</b><small>A shine passes over the stage</small></span>
+              <button class="sw" id="sweepToggle" type="button" aria-pressed="false" aria-label="Light sweep"></button>
+            </div>
+            <label class="sl" data-key="weight">
+              <span class="sl-top"><span class="ctl-lbl">Weight</span><b id="vWeight">800</b></span>
+              <input type="range" id="weight" min="300" max="900" step="100" value="800" aria-label="Font weight">
+            </label>
+            <p class="ctl-note">Preview-only styling. The panel never changes your font, size or fill colour — it only animates what the preset defines.</p>
+          </section>
+
+          <section class="ctl-card ctl-layout">
+            <header class="ctl-head"><h4>Layout</h4><span class="ctl-extra">playground</span></header>
+            <div class="ctl-field" data-key="align">
+              <span class="ctl-lbl">Alignment</span>
+              <div class="seg" id="alignSeg" role="group" aria-label="Alignment">
+                <button data-v="left" type="button" title="Align left" aria-label="Align left">⇤</button>
+                <button data-v="center" type="button" title="Center" aria-label="Align centre">≡</button>
+                <button data-v="right" type="button" title="Align right" aria-label="Align right">⇥</button>
+              </div>
+            </div>
+            <div class="layout-row">
+              <div class="ctl-field" data-key="anchor">
+                <span class="ctl-lbl">Anchor point</span>
+                <div class="anc" id="anchorGrid" role="group" aria-label="Anchor point">
+                  <button data-v="0,0" type="button" title="Top left" aria-label="Anchor top left"></button>
+                  <button data-v="0.5,0" type="button" title="Top centre" aria-label="Anchor top centre"></button>
+                  <button data-v="1,0" type="button" title="Top right" aria-label="Anchor top right"></button>
+                  <button data-v="0,0.5" type="button" title="Middle left" aria-label="Anchor middle left"></button>
+                  <button data-v="0.5,0.5" type="button" title="Centre" aria-label="Anchor centre"></button>
+                  <button data-v="1,0.5" type="button" title="Middle right" aria-label="Anchor middle right"></button>
+                  <button data-v="0,1" type="button" title="Bottom left" aria-label="Anchor bottom left"></button>
+                  <button data-v="0.5,1" type="button" title="Bottom centre" aria-label="Anchor bottom centre"></button>
+                  <button data-v="1,1" type="button" title="Bottom right" aria-label="Anchor bottom right"></button>
+                </div>
+              </div>
+              <label class="sl" data-key="size">
+                <span class="sl-top"><span class="ctl-lbl">Size</span><b id="vSize">50 px</b></span>
+                <input type="range" id="size" min="22" max="64" step="1" value="50" aria-label="Text size">
+              </label>
+            </div>
+            <p class="ctl-note">Anchor decides where scale and rotation grow from — useful when letters should pivot off their baseline.</p>
+          </section>
+
+          <section class="ctl-card ctl-sound">
+            <header class="ctl-head"><h4>Sound</h4><span class="ctl-extra">playground</span></header>
+            <div class="fx-row" data-key="sfxOn">
+              <span class="fx-ico" aria-hidden="true">♪</span>
+              <span class="fx-lbl"><b>Sound cue</b><small>One hit per loop</small></span>
+              <button class="sw" id="sfxToggle" type="button" aria-pressed="true" aria-label="Sound cue"></button>
+            </div>
+            <label class="ctl-field" data-key="sfx">
+              <span class="ctl-lbl">Cue</span>
+              <select id="sfxSel" class="select" aria-label="Sound cue"></select>
+            </label>
+            <p class="ctl-note">Synthesised live with the Web Audio API — a preview of the idea, not the shipped WAV.</p>
+          </section>
+        </div>
+
+        <div class="ed-foot">
+          <p><b>The honest bit:</b> this page previews motion in your browser. Kinetype writes native After Effects text animators — nothing is baked, and every value stays editable. Orange dots mark values that follow you into every style.</p>
+          <a href="#" class="ed-buy is-soon" data-buy="kinetype">Payment coming soon</a>
         </div>
       </div>
     </div>
   </div>
+
 </section>
 
 <!-- ══════════════ FEATURED ══════════════ -->
@@ -1933,5 +2078,9 @@ window.addEventListener('scroll', () => {
   if (stylesEl.firstChild) stylesEl.firstChild.click();
 })();
 </script>
+
+  <script src="studio/js/audio.js?v=1"></script>
+  <script src="studio/js/demo-presets.js?v=1"></script>
+  <script src="studio/js/demo.js?v=2"></script>
 </body>
 </html>
